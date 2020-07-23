@@ -7,6 +7,7 @@ import shutil
 # TODO сохранение zip файла в отдельную папку а не в корень
 # *     напимер можно в папку zip а не в ту где хранятся обработанные файлы
 # TODO сделать кнопку назад
+# TODO вынести создание архива в utils
 
 
 def split_pdf(path_to_file: str, name_of_file: str):
