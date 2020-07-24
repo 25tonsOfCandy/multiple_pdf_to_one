@@ -23,7 +23,7 @@ def split_pdf(path_to_file: str, name_of_file: str):
         output_stream.close()
 
     shutil.make_archive(
-        name_of_file,
+        'zip/' + name_of_file,
         'zip',
         path_to_file
         )

@@ -15,13 +15,13 @@ from pdf_worker import split_pdf
 UPLOAD_FOLDER = 'files/'  # папка для загрузки файлов
 # разрешенные типы файлов
 ALLOWED_EXTENSIONS = set(['pdf', 'jpg', 'png', 'jpeg'])
-DEFAULT_HTML = '''
+SPLIT_PDF_HTML = '''
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
-        <p><input type=file name="file[]" multiple required>
+        <p><input type=file name="file[]" accept="application/pdf" multiple required >
             <input type=submit value=Upload>
     </form>
     '''
@@ -73,16 +73,16 @@ def upload_file():
                 os.path.join(
                     app.config['UPLOAD_FOLDER']
                     + '/' + folder_for_download, filename))
-        # выводим файл в браузере
-        split_pdf(UPLOAD_FOLDER + '/' + folder_for_download + '/', filename)
+            # выводим файл в браузере
+            split_pdf(UPLOAD_FOLDER + '/' + folder_for_download + '/', filename)
         return redirect(
             url_for(
                 'uploaded_file',
                 filename=filename + '.zip'))
         # если файл загружали
-        return DEFAULT_HTML
+        return SPLIT_PDF_HTML
     if request.method == 'GET':  # первый вход на сайт
-        return DEFAULT_HTML
+        return SPLIT_PDF_HTML
 
 
 # !Скорее всего не будет юзатся
