@@ -15,4 +15,4 @@ def replace_whitespace(s: str, char_for_replace: str):
 
 
 if __name__ == '__main__':
-    print(is_exist('pdf'))
+    print(is_exist(''))
