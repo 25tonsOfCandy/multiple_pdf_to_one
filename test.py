@@ -4,7 +4,7 @@ from flask import render_template, send_file
 import os
 from werkzeug.utils import secure_filename
 from utils import is_exist, create_files_folder
-from utils import replace_whitespace
+from utils import replace_whitespace, create_zip
 from pdf_worker import split_pdf
 
 # TODO сделать проверку формата файла
@@ -74,7 +74,11 @@ def upload_file():
                     app.config['UPLOAD_FOLDER']
                     + '/' + folder_for_download, filename))
             # выводим файл в браузере
-            split_pdf(UPLOAD_FOLDER + '/' + folder_for_download + '/', filename)
+            split_pdf(
+                UPLOAD_FOLDER + '/' + folder_for_download + '/', filename)
+        create_zip(
+            filename,
+            UPLOAD_FOLDER + '/' + folder_for_download)
         return redirect(
             url_for(
                 'uploaded_file',
