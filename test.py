@@ -25,6 +25,16 @@ SPLIT_PDF_HTML = '''
             <input type=submit value=Upload>
     </form>
     '''
+MULTIPLE_PDF = '''
+    <!doctype html>
+    <title>Соединить pdf</title>
+    <h1>Соединить pdf</h1>
+    <form action="" method=post enctype=multipart/form-data>
+        <input type=text name=folder_for_download required>
+        <p><input type=file name="file[]" accept="application/pdf" multiple required >
+            <input type=submit value=Upload>
+    </form>
+    '''
 
 app = Flask(__name__)
 # сообщаем flask куда загружать файлы
@@ -89,9 +99,12 @@ def upload_file():
         return SPLIT_PDF_HTML
 
 
-@app.route('/multiplepdftoone')  # заглушка
+@app.route('/multiplepdftoone', methods=['GET', 'POST'])  # заглушка
 def multiple_pdf_to_one():
-    return SPLIT_PDF_HTML
+    if request.method == 'GET':
+        return MULTIPLE_PDF
+    if request.method == 'POST':
+        return MULTIPLE_PDF
 
 
 # !Скорее всего не будет юзатся
