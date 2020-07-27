@@ -89,6 +89,11 @@ def upload_file():
         return SPLIT_PDF_HTML
 
 
+@app.route('/multiplepdftoone')  # заглушка
+def multiple_pdf_to_one():
+    return SPLIT_PDF_HTML
+
+
 # !Скорее всего не будет юзатся
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
