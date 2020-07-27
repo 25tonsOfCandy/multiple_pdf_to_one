@@ -17,8 +17,8 @@ UPLOAD_FOLDER = 'files/'  # папка для загрузки файлов
 ALLOWED_EXTENSIONS = set(['pdf', 'jpg', 'png', 'jpeg'])
 SPLIT_PDF_HTML = '''
     <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <title>Разделить pdf</title>
+    <h1>Разделить pdf</h1>
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
         <p><input type=file name="file[]" accept="application/pdf" multiple required >

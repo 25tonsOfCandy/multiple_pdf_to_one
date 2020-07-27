@@ -1,5 +1,4 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
-import shutil
 
 # TODO создание pdf из картинок
 # TODO соединять два или более файлов в один
@@ -21,3 +20,15 @@ def split_pdf(path_to_file: str, name_of_file: str):
             path_to_file + name_of_file + str(i) + ".pdf", "wb")
         output.write(output_stream)
         output_stream.close()
+
+
+def multiple_pdf_to_one(pdf_list: list, name_of_result_file: str):
+    result = PdfFileWriter()
+    for pdf in pdf_list:
+        reader = PdfFileReader(pdf)
+        for page in range(reader.getNumPages()):
+            result.addPage(reader.getPage(page))
+
+    outputstream = open(name_of_result_file + '.pdf', 'wb')
+    result.write(outputstream)
+    outputstream.close()
