@@ -9,8 +9,9 @@ from pdf_worker import split_pdf, multiple_pdf_to_one
 
 # TODO сделать проверку формата файла
 # TODO форматировать код до удобочитаемого
-# TODO добавить надпись на странице splitpdf
+# * TODO добавить надпись на странице splitpdf
 # TODO написать тесты для всего
+# TODO вынести пути до файлов в ini
 
 UPLOAD_FOLDER = 'files/'  # папка для загрузки файлов
 # разрешенные типы файлов
@@ -18,6 +19,7 @@ ALLOWED_EXTENSIONS = set(['pdf', 'jpg', 'png', 'jpeg'])
 SPLIT_PDF_HTML = '''
     <!doctype html>
     <title>Разделить pdf</title>
+    <a href='/'><input type="button" value="Назад"></a>
     <h1>Разделить pdf</h1>
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
@@ -28,7 +30,9 @@ SPLIT_PDF_HTML = '''
 MULTIPLE_PDF = '''
     <!doctype html>
     <title>Соединить pdf</title>
+    <a href='/'><input type="button" value="Назад"></a>
     <h1>Соединить pdf</h1>
+    
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
         <p><input type=file name="file[]" accept="application/pdf" multiple required >
