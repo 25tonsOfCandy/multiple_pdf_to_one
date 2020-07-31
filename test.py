@@ -5,7 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 from utils import is_exist, create_files_folder
 from utils import replace_whitespace, create_zip
-from pdf_worker import split_pdf
+from pdf_worker import split_pdf, multiple_pdf_to_one
 
 # TODO сделать проверку формата файла
 # TODO форматировать код до удобочитаемого
@@ -91,7 +91,7 @@ def upload_file():
             UPLOAD_FOLDER + '/' + folder_for_download)
         return redirect(
             url_for(
-                'uploaded_file',
+                'return_zip',
                 filename=filename + '.zip'))
         # если файл загружали
         return SPLIT_PDF_HTML
@@ -100,16 +100,35 @@ def upload_file():
 
 
 @app.route('/multiplepdftoone', methods=['GET', 'POST'])  # заглушка
-def multiple_pdf_to_one():
+def multiple_pdf_to_one_page():
     if request.method == 'GET':
         return MULTIPLE_PDF
     if request.method == 'POST':
+        files = request.files.getlist("file[]")
+        folder_for_download = request.form.get('folder_for_download')
+        folder_for_download = replace_whitespace(folder_for_download, '_')
+
+        if not is_exist(folder_for_download):
+            create_files_folder(folder_for_download)
+        for f in files:
+            # проверяем безопасность файла
+            filename = secure_filename(f.filename)
+            # сохраняем файл
+            f.save(
+                os.path.join(
+                    app.config['UPLOAD_FOLDER']
+                    + '/' + folder_for_download, filename))
+        multiple_pdf_to_one(files, folder_for_download)
+        return redirect(url_for(
+            'return_result_pdf', filename=folder_for_download + '.pdf'))
+
         return MULTIPLE_PDF
 
 
+
 # !Скорее всего не будет юзатся
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
+@app.route('/return_zip/<filename>')
+def return_zip(filename):
     """Страница вывода загруженного файла
 
     Args:
@@ -119,7 +138,21 @@ def uploaded_file(filename):
         [type]: [description]
     """
     return send_file(
-        filename, attachment_filename=filename)
+        'zip/' + filename, attachment_filename=filename)
+
+
+@app.route('/return_result_pdf/<filename>')
+def return_result_pdf(filename):
+    """Страница вывода загруженного файла
+
+    Args:
+        filename (str): Имя загруженного файла
+
+    Returns:
+        [type]: [description]
+    """
+    return send_file(
+        'pdf/' + filename, attachment_filename=filename)
 
 
 if __name__ == '__main__':

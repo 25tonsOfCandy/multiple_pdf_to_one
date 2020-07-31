@@ -23,12 +23,13 @@ def split_pdf(path_to_file: str, name_of_file: str):
 
 
 def multiple_pdf_to_one(pdf_list: list, name_of_result_file: str):
+
     result = PdfFileWriter()
     for pdf in pdf_list:
         reader = PdfFileReader(pdf)
         for page in range(reader.getNumPages()):
             result.addPage(reader.getPage(page))
 
-    outputstream = open(name_of_result_file + '.pdf', 'wb')
+    outputstream = open('pdf/' + name_of_result_file + '.pdf', 'wb')
     result.write(outputstream)
     outputstream.close()
