@@ -1,5 +1,6 @@
 import os
 import shutil
+import configparser
 UPLOAD_FOLDER = 'files/'
 
 
@@ -23,5 +24,23 @@ def create_zip(name_of_file: str, path_to_file: str):
         )
 
 
+def get_files_folder():
+    cfgparser = configparser.ConfigParser()
+    cfgparser.read('default_folders.ini')
+    return cfgparser['UPLOAD']['Files']
+
+
+def get_pdf_folder():
+    cfgparser = configparser.ConfigParser()
+    cfgparser.read('default_folders.ini')
+    return cfgparser['RESULT']['Pdf']
+
+
+def get_zip_folder():
+    cfgparser = configparser.ConfigParser()
+    cfgparser.read('default_folders.ini')
+    return cfgparser['RESULT']['Zip']
+
+
 if __name__ == '__main__':
-    print(is_exist(''))
+    get_files_folder()
