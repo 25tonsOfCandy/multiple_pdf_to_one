@@ -1,4 +1,5 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
+import utils as ut
 
 
 def split_pdf(path_to_file: str, name_of_file: str):
@@ -22,6 +23,8 @@ def multiple_pdf_to_one(pdf_list: list, name_of_result_file: str):
         for page in range(reader.getNumPages()):
             result.addPage(reader.getPage(page))
 
-    outputstream = open('pdf/' + name_of_result_file + '.pdf', 'wb')
+    outputstream = open(
+        ut.get_pdf_folder() + name_of_result_file + '.pdf', 'wb')
+
     result.write(outputstream)
     outputstream.close()

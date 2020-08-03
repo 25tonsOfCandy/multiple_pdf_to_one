@@ -21,7 +21,7 @@ def replace_whitespace(s: str, char_for_replace: str):
 
 def create_zip(name_of_file: str, path_to_file: str):
     shutil.make_archive(
-        'zip/' + name_of_file,
+        get_zip_folder() + name_of_file,
         'zip',
         path_to_file
         )

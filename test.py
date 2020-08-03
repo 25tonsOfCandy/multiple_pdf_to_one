@@ -7,7 +7,6 @@ import utils as ut
 from pdf_worker import split_pdf, multiple_pdf_to_one
 
 
-UPLOAD_FOLDER = 'files/'  # папка для загрузки файлов
 # разрешенные типы файлов
 ALLOWED_EXTENSIONS = set(['pdf', 'jpg', 'png', 'jpeg'])
 SPLIT_PDF_HTML = '''
@@ -35,7 +34,7 @@ MULTIPLE_PDF = '''
 
 app = Flask(__name__)
 # сообщаем flask куда загружать файлы
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = ut.get_files_folder()
 
 
 def allowed_file(filename):  # !NOT USING
@@ -72,25 +71,31 @@ def upload_file():
         # if allowed_file(file[0]):  # проверяем тип файла
         if not ut.is_exist_in_files_folder(folder_for_download):
             ut.create_files_folder(folder_for_download)
+
         for f in file:
             # проверяем безопасность файла
             filename = secure_filename(f.filename)
+
             # сохраняем файл
             f.save(
                 os.path.join(
                     app.config['UPLOAD_FOLDER']
                     + '/' + folder_for_download, filename))
+
             # выводим файл в браузере
             split_pdf(
-                UPLOAD_FOLDER + '/' + folder_for_download + '/', filename)
+                ut.get_files_folder()
+                + '/' + folder_for_download + '/', filename)
+
         ut.create_zip(
             filename,
-            UPLOAD_FOLDER + '/' + folder_for_download)
+            ut.get_files_folder() + '/' + folder_for_download)
+
         return redirect(
             url_for(
                 'return_zip',
                 filename=filename + '.zip'))
-        # если файл загружали
+
         return SPLIT_PDF_HTML
     if request.method == 'GET':  # первый вход на сайт
         return SPLIT_PDF_HTML
