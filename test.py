@@ -70,7 +70,7 @@ def upload_file():
         folder_for_download = ut.replace_whitespace(folder_for_download, '_')
 
         # if allowed_file(file[0]):  # проверяем тип файла
-        if not ut.is_exist(folder_for_download):
+        if not ut.is_exist_in_files_folder(folder_for_download):
             ut.create_files_folder(folder_for_download)
         for f in file:
             # проверяем безопасность файла
@@ -105,7 +105,7 @@ def multiple_pdf_to_one_page():
         folder_for_download = request.form.get('folder_for_download')
         folder_for_download = ut.replace_whitespace(folder_for_download, '_')
 
-        if not ut.is_exist(folder_for_download):
+        if not ut.is_exist_in_files_folder(folder_for_download):
             ut.create_files_folder(folder_for_download)
         for f in files:
             # проверяем безопасность файла
@@ -152,4 +152,6 @@ def return_result_pdf(filename):
 
 
 if __name__ == '__main__':
+    # проверяем есть ли все нужные папки
+    ut.check_for_folders()
     app.run(debug=True)
