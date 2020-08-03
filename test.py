@@ -7,11 +7,6 @@ from utils import is_exist, create_files_folder
 from utils import replace_whitespace, create_zip
 from pdf_worker import split_pdf, multiple_pdf_to_one
 
-# TODO сделать проверку формата файла
-# TODO форматировать код до удобочитаемого
-# * TODO добавить надпись на странице splitpdf
-# TODO написать тесты для всего
-# TODO вынести пути до файлов в ini
 
 UPLOAD_FOLDER = 'files/'  # папка для загрузки файлов
 # разрешенные типы файлов
@@ -23,7 +18,7 @@ SPLIT_PDF_HTML = '''
     <h1>Разделить pdf</h1>
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
-        <p><input type=file name="file[]" accept="application/pdf" multiple required >
+<p><input type=file name="file[]" accept="application/pdf" multiple required >
             <input type=submit value=Upload>
     </form>
     '''
@@ -32,10 +27,9 @@ MULTIPLE_PDF = '''
     <title>Соединить pdf</title>
     <a href='/'><input type="button" value="Назад"></a>
     <h1>Соединить pdf</h1>
-    
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
-        <p><input type=file name="file[]" accept="application/pdf" multiple required >
+<p><input type=file name="file[]" accept="application/pdf" multiple required >
             <input type=submit value=Upload>
     </form>
     '''
@@ -127,7 +121,6 @@ def multiple_pdf_to_one_page():
             'return_result_pdf', filename=folder_for_download + '.pdf'))
 
         return MULTIPLE_PDF
-
 
 
 # !Скорее всего не будет юзатся

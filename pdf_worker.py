@@ -1,13 +1,5 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-# TODO создание pdf из картинок
-# * TODO соединять два или более файлов в один
-# TODO документация
-# * TODO сохранение zip файла в отдельную папку а не в корень
-# *     напимер можно в папку zip а не в ту где хранятся обработанные файлы
-#  * TODO сделать кнопку назад
-# TODO вынести создание архива в utils
-
 
 def split_pdf(path_to_file: str, name_of_file: str):
     reader = PdfFileReader(path_to_file + name_of_file)
