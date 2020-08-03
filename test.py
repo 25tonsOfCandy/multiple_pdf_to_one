@@ -3,8 +3,7 @@ from flask import redirect, url_for
 from flask import render_template, send_file
 import os
 from werkzeug.utils import secure_filename
-from utils import is_exist, create_files_folder
-from utils import replace_whitespace, create_zip
+import utils as ut
 from pdf_worker import split_pdf, multiple_pdf_to_one
 
 
@@ -68,11 +67,11 @@ def upload_file():
     if request.method == 'POST':  # если файл загрузили и нажали кнопку upload
         file = request.files.getlist('file[]')  # проверяем загрузили ли файлы
         folder_for_download = request.form.get('folder_for_download')
-        folder_for_download = replace_whitespace(folder_for_download, '_')
+        folder_for_download = ut.replace_whitespace(folder_for_download, '_')
 
         # if allowed_file(file[0]):  # проверяем тип файла
-        if not is_exist(folder_for_download):
-            create_files_folder(folder_for_download)
+        if not ut.is_exist(folder_for_download):
+            ut.create_files_folder(folder_for_download)
         for f in file:
             # проверяем безопасность файла
             filename = secure_filename(f.filename)
@@ -84,7 +83,7 @@ def upload_file():
             # выводим файл в браузере
             split_pdf(
                 UPLOAD_FOLDER + '/' + folder_for_download + '/', filename)
-        create_zip(
+        ut.create_zip(
             filename,
             UPLOAD_FOLDER + '/' + folder_for_download)
         return redirect(
@@ -104,10 +103,10 @@ def multiple_pdf_to_one_page():
     if request.method == 'POST':
         files = request.files.getlist("file[]")
         folder_for_download = request.form.get('folder_for_download')
-        folder_for_download = replace_whitespace(folder_for_download, '_')
+        folder_for_download = ut.replace_whitespace(folder_for_download, '_')
 
-        if not is_exist(folder_for_download):
-            create_files_folder(folder_for_download)
+        if not ut.is_exist(folder_for_download):
+            ut.create_files_folder(folder_for_download)
         for f in files:
             # проверяем безопасность файла
             filename = secure_filename(f.filename)

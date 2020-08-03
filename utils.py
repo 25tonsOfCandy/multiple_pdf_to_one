@@ -1,7 +1,10 @@
 import os
 import shutil
 import configparser
+import time
 UPLOAD_FOLDER = 'files/'
+cfgparser = configparser.ConfigParser()
+cfgparser.read('default_folders.ini')
 
 
 def is_exist(folder: str):
@@ -25,22 +28,21 @@ def create_zip(name_of_file: str, path_to_file: str):
 
 
 def get_files_folder():
-    cfgparser = configparser.ConfigParser()
-    cfgparser.read('default_folders.ini')
     return cfgparser['UPLOAD']['Files']
 
 
 def get_pdf_folder():
-    cfgparser = configparser.ConfigParser()
-    cfgparser.read('default_folders.ini')
     return cfgparser['RESULT']['Pdf']
 
 
 def get_zip_folder():
-    cfgparser = configparser.ConfigParser()
-    cfgparser.read('default_folders.ini')
     return cfgparser['RESULT']['Zip']
 
 
 if __name__ == '__main__':
-    get_files_folder()
+    t = time.time()
+    for i in range(0, 1000):
+        print(get_files_folder())
+        print(get_pdf_folder())
+        print(get_zip_folder())
+    print(time.time() - t)
