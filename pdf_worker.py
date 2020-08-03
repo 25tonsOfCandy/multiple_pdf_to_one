@@ -28,3 +28,11 @@ def multiple_pdf_to_one(pdf_list: list, name_of_result_file: str):
 
     result.write(outputstream)
     outputstream.close()
+
+
+def pics_to_pdf():
+    pass
+
+
+if __name__ == '__main__':
+    pass
