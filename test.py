@@ -5,6 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 import utils as ut
 from pdf_worker import split_pdf, multiple_pdf_to_one
+from pdf_worker import pics_to_pdf
 
 
 # разрешенные типы файлов
@@ -28,6 +29,17 @@ MULTIPLE_PDF = '''
     <form action="" method=post enctype=multipart/form-data>
         <input type=text name=folder_for_download required>
 <p><input type=file name="file[]" accept="application/pdf" multiple required >
+            <input type=submit value=Upload>
+    </form>
+    '''
+PICS_TO_PDF = '''
+    <!doctype html>
+    <title>Картинки в pdf</title>
+    <a href='/'><input type="button" value="Назад"></a>
+    <h1>Соединить pdf</h1>
+    <form action="" method=post enctype=multipart/form-data>
+        <input type=text name=folder_for_download required>
+<p><input type=file name="file[]" accept="image/png,image/jpeg" multiple required >
             <input type=submit value=Upload>
     </form>
     '''
@@ -125,6 +137,30 @@ def multiple_pdf_to_one_page():
             'return_result_pdf', filename=folder_for_download + '.pdf'))
 
         return MULTIPLE_PDF
+
+
+@app.route('/picstopdf/', methods=['GET', 'POST'])
+def picstopdf():
+    if request.method == 'POST':
+        files = request.files.getlist("file[]")
+        folder_for_download = request.form.get('folder_for_download')
+        folder_for_download = ut.replace_whitespace(folder_for_download, '_')
+
+        if not ut.is_exist_in_files_folder(folder_for_download):
+            ut.create_files_folder(folder_for_download)
+        for f in files:
+            # проверяем безопасность файла
+            filename = secure_filename(f.filename)
+            # сохраняем файл
+            f.save(
+                os.path.join(
+                    app.config['UPLOAD_FOLDER']
+                    + '/' + folder_for_download, filename))
+        pics_to_pdf(folder_for_download, result_filename=folder_for_download)
+        return redirect(url_for(
+            'return_result_pdf', filename=folder_for_download + '.pdf'))
+    if request.method == 'GET':
+        return PICS_TO_PDF
 
 
 # !Скорее всего не будет юзатся

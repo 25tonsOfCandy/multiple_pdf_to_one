@@ -31,12 +31,13 @@ def multiple_pdf_to_one(pdf_list: list, name_of_result_file: str):
     outputstream.close()
 
 
+# convert pics/2.png -background white -alpha remove -alpha off pics/output.png
 def pics_to_pdf(pics_directory: str, result_filename: str):
     with open('pdf/' + result_filename + '.pdf', 'wb') as f:
         f.write(
             img2pdf.convert(
-                ['pics/' + i for i in ut.listdir(
-                    ut.get_files_folder() + pics_directory())]))
+                [ut.get_files_folder() + pics_directory + '/' + i for i in ut.listdir(  # noqa
+                    ut.get_files_folder() + pics_directory)]))
 
 
 if __name__ == '__main__':
