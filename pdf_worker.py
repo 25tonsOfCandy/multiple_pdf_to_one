@@ -1,6 +1,7 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
 import utils as ut
-
+import img2pdf
+import os
 
 def split_pdf(path_to_file: str, name_of_file: str):
     reader = PdfFileReader(path_to_file + name_of_file)
@@ -31,8 +32,10 @@ def multiple_pdf_to_one(pdf_list: list, name_of_result_file: str):
 
 
 def pics_to_pdf():
-    pass
+    with open('pdf/output.pdf', 'wb') as f:
+        f.write(img2pdf.convert(['pics/' + i for i in os.listdir('pics')]))
 
 
 if __name__ == '__main__':
-    pass
+    pics_to_pdf()
+    # print(os.listdir('pics'))

@@ -3,3 +3,4 @@ zip/*
 pdf/*
 .vscode
 __pycache__
+pics/*
