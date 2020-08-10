@@ -58,5 +58,9 @@ def check_for_folders():
         os.mkdir(get_zip_folder())
 
 
+def listdir(directory: str):
+    return os.listdir(directory)
+
+
 if __name__ == '__main__':
     clean_folders()
