@@ -4,3 +4,4 @@ pdf/*
 .vscode
 __pycache__
 pics/*
+venv
