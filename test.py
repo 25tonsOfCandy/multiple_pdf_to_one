@@ -3,9 +3,9 @@ from flask import redirect, url_for
 from flask import render_template, send_file
 import os
 from werkzeug.utils import secure_filename
-import utils as ut
-from pdf_worker import split_pdf, multiple_pdf_to_one
-from pdf_worker import pics_to_pdf
+import config_parser.utils as ut
+from pdf_worker.pdf_worker import split_pdf, multiple_pdf_to_one
+from pdf_worker.pdf_worker import pics_to_pdf
 
 
 # разрешенные типы файлов
@@ -195,4 +195,4 @@ def return_result_pdf(filename):
 if __name__ == '__main__':
     # проверяем есть ли все нужные папки
     ut.check_for_folders()
-    app.run(debug=True)
+    (app.run(debug=True))
