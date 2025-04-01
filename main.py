@@ -26,7 +26,7 @@ def test():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file")
         filename = request.form.get("folder_for_download")
-
+        # TODO: File Exist Error
         if folder_handler.is_folder_exist(config_reader.get_files_folder() + filename) == None:
             FolderHandler().create_folder(config_reader.get_files_folder() + filename)
 
@@ -34,6 +34,7 @@ def test():
             file_path = os.path.join(f"{config_reader.get_files_folder()}{filename}/{uploaded_file.filename}")
             uploaded_file.save(file_path)
 
+        # TODO: Return all files in zip archive maybe?
         folder_handler.create_folder(config_reader.get_pdf_folder()+filename+"/")
         PdfSplitter(file_path).split(name=filename, directory=config_reader.get_pdf_folder()+filename+"/")
 
