@@ -3,8 +3,10 @@ from configparser import ConfigParser
 
 class ConfigReader():
     def __init__(self, config_path: str):
-        self.cfgparser = ConfigParser()
         self.config_path = config_path
+        self.cfgparser = ConfigParser()
+        self.cfgparser.read(self.config_path)
+
 
 
     def get_by_keys(self, category: str, element: str):
@@ -21,3 +23,7 @@ class ConfigReader():
 
     def get_zip_folder(self):
         return self.cfgparser['RESULT']['Zip']
+
+
+if __name__ == '__main__':
+    print(ConfigReader("default_folders.ini").get_files_folder())
