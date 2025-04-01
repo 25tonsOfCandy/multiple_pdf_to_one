@@ -4,9 +4,12 @@ from flask import Flask
 from flask import render_template
 from flask import send_file, request
 from config_parser.configreader import ConfigReader
+from folderhandler import FolderHandler
+from pdfHandler.pdfsplitter import PdfSplitter
 
 app = Flask(__name__)
 config_reader = ConfigReader("default_folders.ini")
+folder_handler = FolderHandler()
 
 @app.route("/")
 def main_page():
@@ -22,12 +25,19 @@ def splitpdf():
 def test():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file")
-        folder = request.form.get("folder_for_download")
-        for uploaded_file in uploaded_files:
-            file_path = os.path.join(f"{config_reader.get_files_folder()}{folder}/{uploaded_file.filename}")
-            uploaded_file.save(file_path)
-        return send_file(file_path, as_attachment=True)
+        filename = request.form.get("folder_for_download")
 
+        if folder_handler.is_folder_exist(config_reader.get_files_folder() + filename) == None:
+            FolderHandler().create_folder(config_reader.get_files_folder() + filename)
+
+        for uploaded_file in uploaded_files:
+            file_path = os.path.join(f"{config_reader.get_files_folder()}{filename}/{uploaded_file.filename}")
+            uploaded_file.save(file_path)
+
+        folder_handler.create_folder(config_reader.get_pdf_folder()+filename+"/")
+        PdfSplitter(file_path).split(name=filename, directory=config_reader.get_pdf_folder()+filename+"/")
+
+        return send_file(config_reader.get_pdf_folder()+filename+"/"+filename+"0.pdf", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
