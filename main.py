@@ -26,8 +26,8 @@ def test():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file")
         filename = request.form.get("folder_for_download")
-        # TODO: File Exist Error
-        if folder_handler.is_folder_exist(config_reader.get_files_folder() + filename) == None:
+
+        if folder_handler.is_folder_exist(config_reader.get_files_folder() + filename) == False:
             FolderHandler().create_folder(config_reader.get_files_folder() + filename)
 
         for uploaded_file in uploaded_files:

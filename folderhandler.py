@@ -7,8 +7,13 @@ class FolderHandler():
 
 
     def is_folder_exist(self, path: str):
-        os.path.exists(path)
+        return os.path.exists(path)
 
 
     def create_folder(self, path: str):
         os.mkdir(path)
+
+
+
+if __name__ == '__main__':
+    print(FolderHandler().is_folder_exist("pdf"))
