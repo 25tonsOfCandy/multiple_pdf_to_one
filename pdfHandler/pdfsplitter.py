@@ -22,5 +22,8 @@ class PdfSplitter():
             self._write(f"{directory}{name}{index}.pdf", page)
 
 
+    def get_number_pages(self):
+        return len(self.pdfreader.pages)
+
 if __name__ == '__main__':
     PdfSplitter("files/qwe/pdf.pdf").split("pdfsplited", "files/qwe")

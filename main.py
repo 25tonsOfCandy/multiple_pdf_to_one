@@ -6,10 +6,13 @@ from flask import send_file, request
 from config_parser.configreader import ConfigReader
 from folderhandler import FolderHandler
 from pdfHandler.pdfsplitter import PdfSplitter
+from ziphandler import ZipHandler
+
 
 app = Flask(__name__)
 config_reader = ConfigReader("default_folders.ini")
 folder_handler = FolderHandler()
+
 
 @app.route("/")
 def main_page():
@@ -35,10 +38,14 @@ def test():
             uploaded_file.save(file_path)
 
         # TODO: Return all files in zip archive maybe?
+        pdfsplitter = PdfSplitter(file_path)
         folder_handler.create_folder(config_reader.get_pdf_folder()+filename+"/")
-        PdfSplitter(file_path).split(name=filename, directory=config_reader.get_pdf_folder()+filename+"/")
+        pdfsplitter.split(name=filename, directory=config_reader.get_pdf_folder()+filename+"/")
 
-        return send_file(config_reader.get_pdf_folder()+filename+"/"+filename+"0.pdf", as_attachment=True)
+        for i in range(pdfsplitter.get_number_pages()):
+            ZipHandler(config_reader.get_pdf_folder()+filename+"/"+filename+".zip").add_file(config_reader.get_pdf_folder()+filename+"/"+filename+str(i)+".pdf")
+
+        return send_file(config_reader.get_pdf_folder()+filename+"/"+filename+".zip", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
