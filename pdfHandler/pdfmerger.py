@@ -18,11 +18,11 @@ class PdfMerger():
         self.pdf_writer.write(f"{file_path}.pdf")
 
 
-    def merge(self, name: str, directory: str):
+    def merge(self, name: str, directory_to_save: str):
         for pdf in self.pdf_list:
             for page in self._get_pages(pdf):
                 self._add_page(page)
-        self._write(f"{directory}{name}")
+        self._write(f"{directory_to_save}{name}")
 
 
 if __name__ == '__main__':
