@@ -4,7 +4,7 @@ from pypdf import PdfReader, PdfWriter
 class PdfSplitter():
     def __init__(self, file_path: str):
         self.file_path = file_path
-        self.pdfreader = PdfReader(file_path)
+        self.pdfreader = PdfReader(self.file_path)
 
 
     def _get_pages(self):
