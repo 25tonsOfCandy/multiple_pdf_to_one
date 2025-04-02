@@ -6,7 +6,7 @@ class FolderHandler():
         pass
 
 
-    def is_folder_exist(self, path: str):
+    def is_folder_exists(self, path: str):
         return os.path.exists(path)
 
 
@@ -14,6 +14,9 @@ class FolderHandler():
         os.mkdir(path)
 
 
+    def ensure_directory_exists(self, path: str):
+        if self.is_folder_exists(path) is False:
+            self.create_folder(path)
 
 if __name__ == '__main__':
-    print(FolderHandler().is_folder_exist("pdf"))
+    print(FolderHandler().is_folder_exists("pdf"))

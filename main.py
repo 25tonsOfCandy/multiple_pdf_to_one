@@ -10,8 +10,10 @@ from ziphandler import ZipHandler
 
 
 app = Flask(__name__)
-config_reader = ConfigReader("default_folders.ini")
+config = ConfigReader("default_folders.ini")
 folder_handler = FolderHandler()
+FILES_FOLDER = config.get_files_folder()
+PDF_FOLDER = config.get_pdf_folder()
 
 
 @app.route("/")
@@ -20,32 +22,32 @@ def main_page():
 
 
 @app.route("/splitpdf")
-def splitpdf():
+def split_pdf_page():
     return render_template("splitpdf.html")
 
 
 @app.route("/getsplitedpdf", methods=["POST"])
-def test():
+def get_splited_pdf():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("file")
-        filename = request.form.get("folder_for_download")
+        folder = request.form.get("folder_for_download")
+        folder_to_save = f"{FILES_FOLDER}{folder}/"
 
-        if folder_handler.is_folder_exist(config_reader.get_files_folder() + filename) == False:
-            FolderHandler().create_folder(config_reader.get_files_folder() + filename)
+        folder_handler.ensure_directory_exists(folder_to_save)
 
         for uploaded_file in uploaded_files:
-            file_path = os.path.join(f"{config_reader.get_files_folder()}{filename}/{uploaded_file.filename}")
+            file_path = os.path.join(f"{FILES_FOLDER}{folder}/{uploaded_file.filename}")
             uploaded_file.save(file_path)
 
-        # TODO: Return all files in zip archive maybe?
         pdfsplitter = PdfSplitter(file_path)
-        folder_handler.create_folder(config_reader.get_pdf_folder()+filename+"/")
-        pdfsplitter.split(name=filename, directory=config_reader.get_pdf_folder()+filename+"/")
+        folder_handler.ensure_directory_exists(f"{PDF_FOLDER}{folder}/")
+        pdfsplitter.split(name=folder, directory=f"{PDF_FOLDER}{folder}/")
 
+        pdf_results_file = f"{PDF_FOLDER}{folder}/{folder}"
         for i in range(pdfsplitter.get_number_pages()):
-            ZipHandler(config_reader.get_pdf_folder()+filename+"/"+filename+".zip").add_file(config_reader.get_pdf_folder()+filename+"/"+filename+str(i)+".pdf")
+            ZipHandler(f"{pdf_results_file}.zip").add_file(f"{pdf_results_file}{str(i)}.pdf")
 
-        return send_file(config_reader.get_pdf_folder()+filename+"/"+filename+".zip", as_attachment=True)
+        return send_file(f"{pdf_results_file}.zip", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
