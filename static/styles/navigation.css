@@ -1,0 +1,21 @@
+.nav {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #1e313e;
+    padding: 10px;
+    }
+    
+.nav-item {
+    color: #efd3a2;
+    padding: 20px;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    border-right: 1px dotted black;
+    }
+
+.nav-item:hover {
+    color: #fbe0ad;
+    background-color: #121d25;
+    }

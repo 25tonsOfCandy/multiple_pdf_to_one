@@ -1,5 +1,19 @@
 <!doctype html>
-<title>Разделить pdf</title>
+<head>
+    <title>Разделить pdf</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/navigation.css') }}">
+</head>
+<body>
+    <nav class = "nav">
+        <h3><a href="/splitpdf" class="nav-item">Поделить pdf по-странично</a></h3>
+        <h3><a href="/mergepdf" class="nav-item">Соединить несколько файлов pdf</a></h3>
+        <h3><a href="/picstopdf" class="nav-item">Картинки в pdf</a></h3>
+        <h3><a href="/test" class="nav-item">test</a></h3>
+    </nav>
+
     <a href='/'><input type="button" value="Назад"></a>
     <h1>Разделить pdf</h1>
     <form action="/getsplitedpdf" method=post enctype=multipart/form-data>
@@ -7,3 +21,4 @@
         <input type=file name="file" accept="application/pdf" required>
         <input type=submit value=Upload>
     </form>
+</body>
