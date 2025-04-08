@@ -1,0 +1,20 @@
+body{
+    background-color: #226893;
+}
+
+.form_actions{
+    height: fit-content;
+}
+
+.upload_button{
+    background-color: black;
+    color: white;
+    font-size: 2em;
+}
+
+.text_area, .file_picker{
+    background-color: black;
+    color: white;
+    font-size: 2em;
+}
+

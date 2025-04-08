@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/navigation.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
 </head>
 <body>
     <nav class = "nav">
@@ -13,11 +14,10 @@
         <h3><a href="/picstopdf" class="nav-item">Картинки в pdf</a></h3>
         <h3><a href="/test" class="nav-item">test</a></h3>
     </nav>
-    <a href='/'><input type="button" value="Назад"></a>
     <h1>Совместить pdf</h1>
-    <form action="/getmergedpdf" method=post enctype=multipart/form-data>
-        <input type=text name=folder_for_download required>
-        <input type=file name="file" accept="application/pdf" multiple required>
-        <input type=submit value=Upload>
+    <form class="form_actions" action="/getmergedpdf" method=post enctype=multipart/form-data>
+        <input class="text_area" type=tРазделить pdf=file name="file" accept="application/pdf" multiple required>
+        <input class="file_picker" type=file name="file" accept="application/pdf" multiple required>
+        <input class="upload_button" type=submit value=Upload>
     </form>
 </body>
