@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-    <title>Разделить pdf</title>
+    <title>Совместить pdf</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main page</title>
@@ -9,8 +9,9 @@
 </head>
 <body>
     {% include 'navigation.html' %}
-    <h1>Разделить pdf</h1>
-    <form action="/getsplitedpdf" method=post enctype=multipart/form-data>
+
+    <h1>Вытащить таблицы</h1>
+    <form class="form_actions" action="/getcsvfrompdffile" method=post enctype=multipart/form-data>
         <input class="text_area" type=text name=folder_for_download required>
         <input class="file_picker" type=file name="file" accept="application/pdf" required>
         <input class="upload_button" type=submit value=Upload>
