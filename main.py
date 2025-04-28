@@ -96,20 +96,20 @@ def table_from_pdf_page():
 
 @app.route("/getcsvfrompdffile", methods=["POST"])
 def get_csv_from_pdf_file():
-        save_files("file", "folder_for_download")
-        folder = get_form_element("folder_for_download")
-        folder_to_save = f"{PDF_FOLDER}{folder}/"
-        files = get_files_list("file")
-        pdf_list = [f"{FILES_FOLDER}{folder}/{i.filename}" for i in files]
-        
-        folder_handler.ensure_directory_exists(f"{PDF_FOLDER}{folder}/")
+    save_files("file", "folder_for_download")
+    folder = get_form_element("folder_for_download")
+    folder_to_save = f"{PDF_FOLDER}{folder}/"
+    files = get_files_list("file")
+    pdf_list = [f"{FILES_FOLDER}{folder}/{i.filename}" for i in files]
+    
+    folder_handler.ensure_directory_exists(f"{PDF_FOLDER}{folder}/")
 
-        file_list = TablesToCSVTransformer(PDFTableGetter(pdf_list[0]).get_tables(), folder_to_save).transform(is_return_file_list=True)
-        zip_result = f"{PDF_FOLDER}{folder}/{folder}"
-        for i in file_list:
-            ZipHandler(f"{zip_result}.zip").add_file(i)
+    file_list = TablesToCSVTransformer(PDFTableGetter(pdf_list[0]).get_tables(), folder_to_save).transform(is_return_file_list=True)
+    zip_result = f"{PDF_FOLDER}{folder}/{folder}"
+    for i in file_list:
+        ZipHandler(f"{zip_result}.zip").add_file(i)
 
-        return send_file(f"{zip_result}.zip", as_attachment=True)
+    return send_file(f"{zip_result}.zip", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
